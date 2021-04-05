@@ -8,6 +8,7 @@ import static org.springframework.web.reactive.function.server.RequestPredicates
 import com.itguru.routerexample.handler.EmployeeHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.server.RouterFunction;
 import org.springframework.web.reactive.function.server.RouterFunctions;
 import org.springframework.web.reactive.function.server.ServerResponse;
@@ -23,7 +24,44 @@ public class EmployeeRouter {
             , handler::getAllEmployees)
         .andRoute(POST("/employee")
                 .and(accept(APPLICATION_JSON))
-            , handler::createEmployee);
+            , handler::createEmployee2);
   }
 
+  /*@Bean
+  public RouterFunction<ServerResponse> router2(EmployeeHandler handler) {
+    return RouterFunctions.route()
+        .path("/api/v1", builder -> {
+          builder.GET("/employee",
+              accept(APPLICATION_JSON),
+              handler::getAllEmployees)
+              .POST("/employee", accept(APPLICATION_JSON),
+                  handler::createEmployee2);
+        })
+        .build();
+  }
+
+  @Bean
+  public RouterFunction<ServerResponse> router3(EmployeeHandler handler) {
+    return RouterFunctions.route()
+        .path("/api/v1", builder -> {
+          builder.nest(accept(APPLICATION_JSON), jsonBuilder -> {
+            jsonBuilder.GET("/employee",
+                accept(APPLICATION_JSON),
+                handler::getAllEmployees);
+
+          })
+              .nest(accept(MediaType.TEXT_HTML),
+                  pdfBuilder -> {
+                    pdfBuilder.GET("/employee",
+                        accept(APPLICATION_JSON),
+                        handler::getAllEmployees);
+                  });
+
+        })
+        .build();
+  }*/
+
+
 }
+
+
